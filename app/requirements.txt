@@ -1,0 +1,3 @@
+RPi.GPIO
+bottle
+bottle-sqlite
