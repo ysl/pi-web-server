@@ -35,11 +35,14 @@ def get_temp():
     d5 = GPIO.input(GPIO5_PIN)
     d6 = GPIO.input(GPIO6_PIN)
     d7 = GPIO.input(GPIO7_PIN)
-    voltage = (d7 << 7) + (d6 << 6) + (d5 << 5) + (d4 << 4) + (d3 << 3) + (d2 << 2) + (d1 << 1) + d0
-    print "0b%d%d%d%d%d%d%d%d %d" % (d7, d6, d5, d4, d3, d2, d1, d0, voltage)
-    return voltage * 2
+    value = (d7 << 7) + (d6 << 6) + (d5 << 5) + (d4 << 4) + (d3 << 3) + (d2 << 2) + (d1 << 1) + d0
+    voltage = (value * 2.5 * 2) / 256
+    temp = voltage * 1000 / 10
+    print "0b%d%d%d%d%d%d%d%d, %d, %f, %f" % \
+        (d7, d6, d5, d4, d3, d2, d1, d0, value, voltage, temp)
+    return temp
 
-def insert_to_db(value):
+def insert_to_db(temp):
     # Connect to db.
     conn = sqlite3.connect('./db/test.db')
     c = conn.cursor()
@@ -51,8 +54,8 @@ def insert_to_db(value):
             temperature REAL
         )''')
 
-    # Insert the value to db.
-    c.execute("INSERT INTO `stats`(`temperature`) VALUES(?)", (value,))
+    # Insert the temp to db.
+    c.execute('INSERT INTO `stats`(`temperature`) VALUES(?)', (temp,))
     # Save.
     conn.commit()
     # Disconnect with db.

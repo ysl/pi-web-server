@@ -14,7 +14,7 @@ def index(db):
 
 # Output csv file.
 @app.route('/data.csv')
-def index(db):
+def data(db):
     lines = []
     lines.append('date,temperature')
 
