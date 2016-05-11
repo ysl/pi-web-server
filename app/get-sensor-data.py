@@ -38,7 +38,7 @@ def get_temp():
     value = (d7 << 7) + (d6 << 6) + (d5 << 5) + (d4 << 4) + (d3 << 3) + (d2 << 2) + (d1 << 1) + d0
     voltage = (value * 2.5 * 2) / 256
     temp = voltage * 1000 / 10
-    print "0b%d%d%d%d%d%d%d%d, %d, %f, %f" % \
+    print "0b%d%d%d%d%d%d%d%d, value=%d, voltage=%f, temp=%f" % \
         (d7, d6, d5, d4, d3, d2, d1, d0, value, voltage, temp)
     return temp
 
